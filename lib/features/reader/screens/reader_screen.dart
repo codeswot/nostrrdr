@@ -4,7 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:pdfrx/pdfrx.dart';
 import 'package:nostrrdr/features/home/providers/documents_provider.dart';
 import 'package:nostrrdr/features/sync/providers/sync_provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nostrrdr/features/reader/widgets/reader_mode_view.dart';
+import 'package:nostrrdr/features/reader/widgets/pdf_view_mode.dart';
 
 class ReaderScreen extends ConsumerStatefulWidget {
   final int documentId;
@@ -42,7 +43,6 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Trigger text extraction when document is available
     final documentAsync = ref.watch(documentProvider(widget.documentId));
     documentAsync.whenData((document) {
       if (document != null && _extractedText == null && !_isLoadingText) {
@@ -141,98 +141,24 @@ class _ReaderScreenState extends ConsumerState<ReaderScreen> {
           }
 
           if (_isReaderMode) {
-            if (_isLoadingText) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            if (_extractedText == null || _extractedText!.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.text_fields, size: 48, color: Colors.grey),
-                    const SizedBox(height: 16),
-                    const Text('No text found or extraction failed.'),
-                    TextButton(
-                      onPressed: () => _extractText(document.filePath),
-                      child: const Text('Retry'),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(16.w),
-              child: SelectableText(
-                _extractedText!,
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  height: 1.6,
-                  fontSize: 16.sp,
-                ),
-              ),
+            return ReaderModeView(
+              isLoading: _isLoadingText,
+              extractedText: _extractedText,
+              onRetry: () => _extractText(document.filePath),
             );
           }
 
-          return Stack(
-            children: [
-              PdfViewer.file(
-                document.filePath,
-                controller: _pdfController,
-                params: PdfViewerParams(
-                  backgroundColor: theme.colorScheme.surface,
-                  enableTextSelection: true,
-                  onPageChanged: (page) {
-                    if (page != null) {
-                      setState(() => _currentPage = page);
-                      _updateProgress(page);
-                      _debouncedSync(page, document.title);
-                    }
-                  },
-                ),
-              ),
-              Positioned(
-                bottom: 16.h,
-                left: 16.w,
-                right: 16.w,
-                child: Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 12.w,
-                    vertical: 8.h,
-                  ),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surface,
-                    border: Border.all(color: theme.colorScheme.outline),
-                    borderRadius: BorderRadius.circular(8.r),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Page ${_currentPage + 1}/${document.totalPages}',
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          fontSize: 12.sp,
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          child: LinearProgressIndicator(
-                            value: document.totalPages > 0
-                                ? (_currentPage + 1) / document.totalPages
-                                : 0,
-                            minHeight: 4.h,
-                            backgroundColor:
-                                theme.colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(2.r),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          return PdfViewMode(
+            document: document,
+            controller: _pdfController,
+            currentPage: _currentPage,
+            onPageChanged: (page) {
+              if (page != null) {
+                setState(() => _currentPage = page);
+                _updateProgress(page);
+                _debouncedSync(page, document.title);
+              }
+            },
           );
         },
         loading: () => Center(
