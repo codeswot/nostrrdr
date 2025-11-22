@@ -9,6 +9,7 @@ import 'package:nostrrdr/features/profile/widgets/key_section_card.dart';
 import 'package:nostrrdr/features/profile/widgets/profile_avatar.dart';
 import 'package:nostrrdr/features/profile/widgets/profile_edit_form.dart';
 import 'package:nostrrdr/features/profile/widgets/profile_info_display.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -89,10 +90,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         ],
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.w),
         children: [
           const ProfileAvatar(),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
 
           if (_isEditing)
             ProfileEditForm(
@@ -108,14 +109,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   const Text('Failed to load profile'),
             ),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
           const Divider(),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Theme Mode Section
           Card(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -124,33 +125,37 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       Icon(
                         Icons.palette_outlined,
                         color: theme.colorScheme.primary,
-                        size: 20,
+                        size: 20.sp,
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: 12.w),
                       Text(
                         'Theme',
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontWeight: FontWeight.w600,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   DropdownButtonFormField<AppThemeMode>(
                     value: currentThemeMode,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                        vertical: 12.h,
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
                     items: AppThemeMode.values.map((mode) {
                       return DropdownMenuItem(
                         value: mode,
-                        child: Text(mode.displayName),
+                        child: Text(
+                          mode.displayName,
+                          style: TextStyle(fontSize: 14.sp),
+                        ),
                       );
                     }).toList(),
                     onChanged: (AppThemeMode? newMode) {
@@ -165,7 +170,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Npub Section
           KeySectionCard(
@@ -173,7 +178,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             value: npub,
             icon: Icons.key,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           // Nsec Section
           FutureBuilder<String?>(
@@ -201,7 +206,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             },
           ),
 
-          const SizedBox(height: 32),
+          SizedBox(height: 32.h),
 
           // Sign Out Button
           FilledButton.tonalIcon(
@@ -231,12 +236,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 }
               }
             },
-            icon: const Icon(Icons.logout),
-            label: const Text('Sign Out'),
+            icon: Icon(Icons.logout, size: 24.sp),
+            label: Text('Sign Out', style: TextStyle(fontSize: 14.sp)),
             style: FilledButton.styleFrom(
               backgroundColor: theme.colorScheme.errorContainer,
               foregroundColor: theme.colorScheme.onErrorContainer,
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 16.h),
             ),
           ),
         ],

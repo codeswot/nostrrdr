@@ -5,6 +5,7 @@ import 'package:nostrrdr/core/theme/app_theme.dart';
 import 'package:nostrrdr/core/providers/theme_mode_provider.dart';
 import 'package:nostrrdr/features/sync/providers/sync_provider.dart';
 import 'package:toastification/toastification.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -20,14 +21,30 @@ class MyApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     final themeMode = ref.watch(themeModeProvider);
 
-    return ToastificationWrapper(
-      child: MaterialApp.router(
-        title: 'NostrRdr',
-        theme: AppTheme.lightTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: themeMode.themeMode,
-        routerConfig: router,
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final Size designSize = constraints.maxWidth >= 600
+            ? const Size(1440, 900)
+            : const Size(375, 812);
+
+        return ScreenUtilInit(
+          designSize: designSize,
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (_, child) {
+            return ToastificationWrapper(
+              child: MaterialApp.router(
+                title: 'NostrRdr',
+                theme: AppTheme.lightTheme,
+                darkTheme: AppTheme.darkTheme,
+                themeMode: themeMode.themeMode,
+                routerConfig: router,
+                debugShowCheckedModeBanner: false,
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

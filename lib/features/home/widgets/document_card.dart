@@ -8,6 +8,7 @@ import 'package:nostrrdr/core/services/toast_service.dart';
 import 'package:nostrrdr/features/auth/providers/auth_provider.dart';
 import 'package:nostrrdr/features/home/providers/documents_provider.dart';
 import 'package:nostrrdr/features/sync/providers/sync_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DocumentCard extends ConsumerWidget {
   final Document document;
@@ -24,7 +25,6 @@ class DocumentCard extends ConsumerWidget {
       documentId: document.documentId,
     );
 
-    // Update database if we got a new thumbnail path
     if (validatedPath != null && validatedPath != document.thumbnailPath) {
       await database.updateThumbnailPath(document.id, validatedPath);
     }
@@ -45,9 +45,12 @@ class DocumentCard extends ConsumerWidget {
               'reader',
               pathParameters: {'documentId': document.id.toString()},
             ),
-      child: Card(
-        elevation: 2,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.colorScheme.surface,
+          border: Border.all(color: theme.colorScheme.primaryContainer),
+          borderRadius: BorderRadius.circular(12.r),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -55,9 +58,9 @@ class DocumentCard extends ConsumerWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primaryContainer,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(12),
-                    topRight: Radius.circular(12),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12.r),
+                    topRight: Radius.circular(12.r),
                   ),
                 ),
                 child: Stack(
@@ -69,11 +72,10 @@ class DocumentCard extends ConsumerWidget {
                         if (snapshot.connectionState ==
                                 ConnectionState.waiting &&
                             document.thumbnailPath != null) {
-                          // Show existing thumbnail while validating
                           return ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12.r),
+                              topRight: Radius.circular(12.r),
                             ),
                             child: Image.file(
                               File(document.thumbnailPath!),
@@ -82,7 +84,7 @@ class DocumentCard extends ConsumerWidget {
                                 return Center(
                                   child: Icon(
                                     Icons.picture_as_pdf,
-                                    size: 48,
+                                    size: 48.sp,
                                     color: theme.colorScheme.primary,
                                   ),
                                 );
@@ -93,9 +95,9 @@ class DocumentCard extends ConsumerWidget {
 
                         if (snapshot.hasData && snapshot.data != null) {
                           return ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12.r),
+                              topRight: Radius.circular(12.r),
                             ),
                             child: Image.file(
                               File(snapshot.data!),
@@ -104,7 +106,7 @@ class DocumentCard extends ConsumerWidget {
                                 return Center(
                                   child: Icon(
                                     Icons.picture_as_pdf,
-                                    size: 48,
+                                    size: 48.sp,
                                     color: theme.colorScheme.primary,
                                   ),
                                 );
@@ -112,12 +114,10 @@ class DocumentCard extends ConsumerWidget {
                             ),
                           );
                         }
-
-                        // Fallback to PDF icon
                         return Center(
                           child: Icon(
                             Icons.picture_as_pdf,
-                            size: 48,
+                            size: 48.sp,
                             color: theme.colorScheme.primary,
                           ),
                         );
@@ -138,14 +138,15 @@ class DocumentCard extends ConsumerWidget {
                               Icon(
                                 Icons.error,
                                 color: theme.colorScheme.error,
-                                size: 32,
+                                size: 32.sp,
                               ),
-                              const SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text(
                                 'Download Failed',
                                 style: theme.textTheme.labelSmall?.copyWith(
                                   color: theme.colorScheme.onError,
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 10.sp,
                                 ),
                               ),
                             ],
@@ -156,18 +157,20 @@ class DocumentCard extends ConsumerWidget {
                 ),
               ),
             ),
+            Divider(color: theme.colorScheme.primaryContainer),
             Padding(
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: 8.h),
                   Text(
                     document.title,
-                    style: theme.textTheme.titleSmall,
+                    style: theme.textTheme.titleMedium,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
                   if (isFailed)
                     SizedBox(
                       width: double.infinity,
@@ -186,30 +189,37 @@ class DocumentCard extends ConsumerWidget {
                         },
                         style: OutlinedButton.styleFrom(
                           padding: EdgeInsets.zero,
-                          minimumSize: const Size(0, 32),
+                          minimumSize: Size(0, 32.h),
                         ),
-                        child: const Text('Retry'),
+                        child: Text('Retry', style: TextStyle(fontSize: 12.sp)),
                       ),
                     )
                   else ...[
                     ClipRRect(
-                      borderRadius: BorderRadius.circular(2),
+                      borderRadius: BorderRadius.circular(2.r),
                       child: LinearProgressIndicator(
                         value: document.totalPages > 0
                             ? (document.lastPage + 1) / document.totalPages
                             : 0,
-                        minHeight: 4,
+                        minHeight: 4.h,
                         backgroundColor:
                             theme.colorScheme.surfaceContainerHighest,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Page ${document.lastPage + 1}/${document.totalPages}',
-                      style: theme.textTheme.labelSmall?.copyWith(
-                        color: theme.colorScheme.onSurfaceVariant,
+                    SizedBox(height: 8.h),
+                    Chip(
+                      label: Text(
+                        'Page ${document.lastPage + 1}/${document.totalPages}',
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                          fontSize: 12.sp,
+                        ),
+                      ),
+                      backgroundColor: theme.colorScheme.primary.withValues(
+                        alpha: 0.1,
                       ),
                     ),
+                    SizedBox(height: 8.h),
                   ],
                 ],
               ),

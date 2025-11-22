@@ -211,6 +211,7 @@ class SyncRepository {
         NostrTag.titleTag(document.title),
         ['url', blossomUrl],
         NostrTag.mTag('application/pdf'),
+        ['total_pages', document.totalPages.toString()],
       ];
 
       final eventContent = jsonEncode({
@@ -324,13 +325,9 @@ class SyncRepository {
 
       final reconciled = <Document>[];
       final localDocIds = localDocs.map((d) => d.documentId).toSet();
-
-      // 1. Handle existing local documents
       for (final localDoc in localDocs) {
         final remoteProgress = remoteProgressMap[localDoc.documentId];
         final remoteMetadata = remoteDocMap[localDoc.documentId];
-
-        // Check if we need to retry download
         if (localDoc.downloadStatus == 'failed' ||
             localDoc.downloadStatus == 'pending') {
           if (remoteMetadata != null) {
@@ -360,11 +357,9 @@ class SyncRepository {
         }
       }
 
-      // 2. Handle new remote documents (downloads)
       for (final dTag in remoteDocMap.keys) {
         if (!localDocIds.contains(dTag)) {
           final metadataEvent = remoteDocMap[dTag]!;
-          // Get npub from metadata event's pubkey
           final hexPubkey = metadataEvent.pubkey;
           final npub = NostrKeyService.encodePublicKey(hexPubkey);
           await _downloadAndImportDocument(
@@ -400,30 +395,33 @@ class SyncRepository {
 
       LoggerService.debug('Found new remote document: $title ($dTag)');
 
-      // Get local path
       final dir = await getApplicationDocumentsDirectory();
       final filename = '${const Uuid().v4()}.pdf';
       final savePath = '${dir.path}/$filename';
-
-      // 1. Persist metadata immediately as pending (or update if exists)
       int lastPage = 0;
       if (progressEvent != null) {
         lastPage = _extractLastPage(progressEvent.tags) ?? 0;
       }
 
-      // Check if doc exists to get ID
+      final totalPages = _extractTotalPages(metadataEvent.tags) ?? 0;
+
       final existingDoc = await _database.getDocumentByDocumentId(dTag);
       int docId;
 
       if (existingDoc != null) {
         docId = existingDoc.id;
         await _database.updateDownloadStatus(docId, 'pending');
+
+        if (totalPages > 0) {
+          await _database.updateTotalPages(docId, totalPages);
+        }
       } else {
         docId = await _database.addDocument(
           title: title,
           filePath: savePath,
           documentId: dTag,
           lastPage: lastPage,
+          totalPages: totalPages,
           uploadStatus: 'uploaded',
           downloadStatus: 'pending',
           ownerNpub: npub,
@@ -433,7 +431,6 @@ class SyncRepository {
         );
       }
 
-      // 2. Attempt download
       LoggerService.debug('Downloading from: $url');
       final file = await _blossomService.downloadFile(url, savePath);
 
@@ -462,6 +459,15 @@ class SyncRepository {
   int? _extractLastPage(List<List<String>> tags) {
     for (final tag in tags) {
       if (tag.length >= 2 && tag[0] == 'page') {
+        return int.tryParse(tag[1]);
+      }
+    }
+    return null;
+  }
+
+  int? _extractTotalPages(List<List<String>> tags) {
+    for (final tag in tags) {
+      if (tag.length >= 2 && tag[0] == 'total_pages') {
         return int.tryParse(tag[1]);
       }
     }

@@ -140,6 +140,11 @@ class AppDatabase extends _$AppDatabase {
         DocumentsCompanion(lastPage: Value(lastPage)),
       );
 
+  Future<int> updateTotalPages(int id, int totalPages) =>
+      (update(documents)..where((tbl) => tbl.id.equals(id))).write(
+        DocumentsCompanion(totalPages: Value(totalPages)),
+      );
+
   Future<int> updateLastSyncedAt(int id, DateTime syncedAt) =>
       (update(documents)..where((tbl) => tbl.id.equals(id))).write(
         DocumentsCompanion(lastSyncedAt: Value(syncedAt)),
@@ -191,6 +196,7 @@ class AppDatabase extends _$AppDatabase {
     required String filePath,
     required String documentId,
     required int lastPage,
+    int totalPages = 0,
     required String uploadStatus,
     required String ownerNpub,
     String downloadStatus = 'downloaded',
@@ -202,6 +208,7 @@ class AppDatabase extends _$AppDatabase {
         filePath: filePath,
         documentId: documentId,
         lastPage: Value(lastPage),
+        totalPages: Value(totalPages),
         uploadStatus: Value(uploadStatus),
         downloadStatus: Value(downloadStatus),
         lastSyncedAt: Value(lastSyncedAt),

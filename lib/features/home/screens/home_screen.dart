@@ -12,6 +12,7 @@ import 'package:nostrrdr/features/home/widgets/document_card.dart';
 import 'package:nostrrdr/features/home/widgets/empty_library_view.dart';
 import 'package:nostrrdr/features/home/widgets/library_error_view.dart';
 import 'package:nostrrdr/features/sync/providers/sync_provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -42,15 +43,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         title: const Text('My Library'),
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 8),
+            padding: EdgeInsets.only(right: 8.w),
             child: GestureDetector(
               onTap: () => context.pushNamed('profile'),
               child: CircleAvatar(
-                radius: 18,
+                radius: 20.r,
                 backgroundColor: theme.colorScheme.primaryContainer,
                 child: Icon(
                   Icons.person,
-                  size: 20,
+                  size: 20.sp,
                   color: theme.colorScheme.onPrimaryContainer,
                 ),
               ),
@@ -73,12 +74,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             child: documents.isEmpty
                 ? const EmptyLibraryView()
                 : GridView.builder(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.w),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: _getCrossAxisCount(context),
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.7,
+                      mainAxisSpacing: 16.h,
+                      crossAxisSpacing: 16.w,
+                      childAspectRatio: 1,
                     ),
                     itemCount: documents.length,
                     itemBuilder: (context, index) {
