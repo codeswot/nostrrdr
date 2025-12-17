@@ -32,16 +32,16 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i961.AuthRepository>(
       () => _i409.AuthRepositoryImpl(authDataSource: gh<_i43.AuthDataSource>()),
     );
-    gh.lazySingleton<_i1070.CreateIdentity>(
-      () => _i1070.CreateIdentity(gh<_i961.AuthRepository>()),
+    gh.lazySingleton<_i1070.CreateIdentityUseCase>(
+      () => _i1070.CreateIdentityUseCase(gh<_i961.AuthRepository>()),
     );
-    gh.lazySingleton<_i505.NsecLogin>(
-      () => _i505.NsecLogin(gh<_i961.AuthRepository>()),
+    gh.lazySingleton<_i505.NsecLoginUseCase>(
+      () => _i505.NsecLoginUseCase(gh<_i961.AuthRepository>()),
     );
     gh.factory<_i797.AuthBloc>(
       () => _i797.AuthBloc(
-        nsecLoginUseCase: gh<_i505.NsecLogin>(),
-        createIdentityUseCase: gh<_i1070.CreateIdentity>(),
+        nsecLoginUseCase: gh<_i505.NsecLoginUseCase>(),
+        createIdentityUseCase: gh<_i1070.CreateIdentityUseCase>(),
       ),
     );
     return this;

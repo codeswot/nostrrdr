@@ -8,12 +8,12 @@ import 'package:nostrrdr/src/features/auth/presentation/bloc/auth_state.dart';
 
 @injectable
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final NsecLogin _nsecLoginUseCase;
-  final CreateIdentity _createIdentityUseCase;
+  final NsecLoginUseCase _nsecLoginUseCase;
+  final CreateIdentityUseCase _createIdentityUseCase;
 
   AuthBloc({
-    required NsecLogin nsecLoginUseCase,
-    required CreateIdentity createIdentityUseCase,
+    required NsecLoginUseCase nsecLoginUseCase,
+    required CreateIdentityUseCase createIdentityUseCase,
   }) : _nsecLoginUseCase = nsecLoginUseCase,
        _createIdentityUseCase = createIdentityUseCase,
        super(AuthInitial()) {

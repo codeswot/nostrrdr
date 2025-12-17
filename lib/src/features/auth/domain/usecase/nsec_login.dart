@@ -6,10 +6,10 @@ import 'package:nostrrdr/src/core/usecase/usecase.dart';
 import 'package:nostrrdr/src/features/auth/domain/repository/auth_repository.dart';
 
 @lazySingleton
-class NsecLogin implements UseCase<marmot.Account, String> {
+class NsecLoginUseCase implements UseCase<marmot.Account, String> {
   final AuthRepository _repository;
 
-  NsecLogin(this._repository);
+  NsecLoginUseCase(this._repository);
 
   @override
   Future<Either<Failure, marmot.Account>> call(String nsecOrHexPrivkey) async {

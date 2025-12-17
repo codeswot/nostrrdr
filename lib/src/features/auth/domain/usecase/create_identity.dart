@@ -6,10 +6,10 @@ import 'package:nostrrdr/src/core/usecase/usecase.dart';
 import 'package:nostrrdr/src/features/auth/domain/repository/auth_repository.dart';
 
 @lazySingleton
-class CreateIdentity implements UseCase<marmot.Account, NoParams> {
+class CreateIdentityUseCase implements UseCase<marmot.Account, NoParams> {
   final AuthRepository _repository;
 
-  CreateIdentity(this._repository);
+  CreateIdentityUseCase(this._repository);
 
   @override
   Future<Either<Failure, marmot.Account>> call(NoParams params) async {

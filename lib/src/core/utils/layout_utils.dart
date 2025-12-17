@@ -1,7 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-/// Returns true if the current platform is a desktop device (Windows, Linux, macOS) or Web.
+class Breakpoints {
+  static const double mobile = 600;
+  static const double tablet = 1200;
+}
+
+enum ScreenType { mobile, tablet, desktop }
+
 bool get isDesktop {
   return kIsWeb ||
       [
@@ -11,10 +17,13 @@ bool get isDesktop {
       ].contains(defaultTargetPlatform);
 }
 
-/// Returns the design size for ScreenUtil based on the platform and current constraints.
-///
-/// On desktop/web, it uses the current window size (constraints) to prevent scaling (1:1 mapping).
-/// On mobile, it uses the standard design draft size (390x844).
+ScreenType getScreenType(BuildContext context) {
+  final width = MediaQuery.of(context).size.width;
+  if (width < Breakpoints.mobile) return ScreenType.mobile;
+  if (width < Breakpoints.tablet) return ScreenType.tablet;
+  return ScreenType.desktop;
+}
+
 Size getDesignSize(BoxConstraints constraints) {
   if (isDesktop) {
     return Size(

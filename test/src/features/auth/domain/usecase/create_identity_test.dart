@@ -8,12 +8,12 @@ import 'package:nostrrdr/src/features/auth/domain/repository/auth_repository.dar
 import 'package:nostrrdr/src/features/auth/domain/usecase/create_identity.dart';
 
 void main() {
-  late CreateIdentity useCase;
+  late CreateIdentityUseCase useCase;
   late MockAuthRepository mockAuthRepository;
 
   setUp(() {
     mockAuthRepository = MockAuthRepository();
-    useCase = CreateIdentity(mockAuthRepository);
+    useCase = CreateIdentityUseCase(mockAuthRepository);
   });
 
   final tAccount = MockAccount();

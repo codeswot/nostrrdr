@@ -7,12 +7,12 @@ import 'package:nostrrdr/src/features/auth/domain/repository/auth_repository.dar
 import 'package:nostrrdr/src/features/auth/domain/usecase/nsec_login.dart';
 
 void main() {
-  late NsecLogin useCase;
+  late NsecLoginUseCase useCase;
   late MockAuthRepository mockAuthRepository;
 
   setUp(() {
     mockAuthRepository = MockAuthRepository();
-    useCase = NsecLogin(mockAuthRepository);
+    useCase = NsecLoginUseCase(mockAuthRepository);
   });
 
   const tNsec = 'nsec123456';

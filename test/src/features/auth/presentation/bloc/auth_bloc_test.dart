@@ -101,8 +101,8 @@ void main() {
   });
 }
 
-class MockNsecLogin extends Mock implements NsecLogin {}
+class MockNsecLogin extends Mock implements NsecLoginUseCase {}
 
-class MockCreateIdentity extends Mock implements CreateIdentity {}
+class MockCreateIdentity extends Mock implements CreateIdentityUseCase {}
 
 class MockAccount extends Mock implements marmot.Account {}
