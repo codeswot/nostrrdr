@@ -19,8 +19,6 @@ class AppTheme {
         onSurface: colors.onSurface,
         error: colors.error,
         onError: colors.onError,
-        background: colors.background,
-        onBackground: colors.onBackground,
       ),
       extensions: <ThemeExtension<dynamic>>[colors, typography],
       appBarTheme: AppBarTheme(
@@ -48,8 +46,6 @@ class AppTheme {
         onSurface: colors.onSurface,
         error: colors.error,
         onError: colors.onError,
-        background: colors.background,
-        onBackground: colors.onBackground,
       ),
       extensions: <ThemeExtension<dynamic>>[colors, typography],
       appBarTheme: AppBarTheme(
