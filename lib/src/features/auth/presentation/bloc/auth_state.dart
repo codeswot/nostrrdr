@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:marmot_flutter/marmot_flutter.dart' as marmot;
+import 'package:marmot_flutter/marmot_flutter.dart' as marmot;  
+
 
 abstract class AuthState extends Equatable {
   const AuthState();

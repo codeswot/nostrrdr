@@ -17,6 +17,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     required this.oceanBlue,
     required this.forestGreen,
     required this.sunYellow,
+    required this.cardColor,
+    required this.surfaceVariant,
   });
 
   final Color primary;
@@ -29,6 +31,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
   final Color onSurface;
   final Color error;
   final Color onError;
+  final Color cardColor;
+  final Color surfaceVariant;
 
   // Custom semantic colors
   final Color roseRed;
@@ -52,6 +56,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     Color? oceanBlue,
     Color? forestGreen,
     Color? sunYellow,
+    Color? cardColor,
+    Color? surfaceVariant,
   }) {
     return AppColorsExtension(
       primary: primary ?? this.primary,
@@ -68,6 +74,8 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       oceanBlue: oceanBlue ?? this.oceanBlue,
       forestGreen: forestGreen ?? this.forestGreen,
       sunYellow: sunYellow ?? this.sunYellow,
+      cardColor: cardColor ?? this.cardColor,
+      surfaceVariant: surfaceVariant ?? this.surfaceVariant,
     );
   }
 
@@ -91,25 +99,29 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
       oceanBlue: Color.lerp(oceanBlue, other.oceanBlue, t)!,
       forestGreen: Color.lerp(forestGreen, other.forestGreen, t)!,
       sunYellow: Color.lerp(sunYellow, other.sunYellow, t)!,
+      cardColor: Color.lerp(cardColor, other.cardColor, t)!,
+      surfaceVariant: Color.lerp(surfaceVariant, other.surfaceVariant, t)!,
     );
   }
 
   // Light Theme Colors
   static const light = AppColorsExtension(
     primary: Color(0xFF6750A4),
-    onPrimary: Colors.white,
-    secondary: Color(0xFF625B71),
-    onSecondary: Colors.white,
-    background: Color(0xFFFFFBFE),
+    onPrimary: Color(0xFFFFFFFF),
+    secondary: Color(0xFF958DA5),
+    onSecondary: Color(0xFFFFFFFF),
+    background: Color(0xFFFDF8FF),
     onBackground: Color(0xFF1C1B1F),
-    surface: Color(0xFFFFFBFE),
+    surface: Color(0xFFFFFFFF),
     onSurface: Color(0xFF1C1B1F),
-    error: Color(0xFFB3261E),
-    onError: Colors.white,
-    roseRed: Color(0xFFE91E63),
-    oceanBlue: Color(0xFF03A9F4),
-    forestGreen: Color(0xFF4CAF50),
-    sunYellow: Color(0xFFFFC107),
+    error: Color(0xFFBA1A1A),
+    onError: Color(0xFFFFFFFF),
+    roseRed: Color(0xFFBC134E),
+    oceanBlue: Color(0xFF00668B),
+    forestGreen: Color(0xFF2E6C39),
+    sunYellow: Color(0xFF765B00),
+    cardColor: Color(0xFFEADDFF),
+    surfaceVariant: Color(0xFFE7E0EC),
   );
 
   // Dark Theme Colors
@@ -118,16 +130,18 @@ class AppColorsExtension extends ThemeExtension<AppColorsExtension> {
     onPrimary: Color(0xFF381E72),
     secondary: Color(0xFFCCC2DC),
     onSecondary: Color(0xFF332D41),
-    background: Color(0xFF1C1B1F),
+    background: Color(0xFF141218),
     onBackground: Color(0xFFE6E1E5),
-    surface: Color(0xFF1C1B1F),
+    surface: Color(0xFF1D1B20),
     onSurface: Color(0xFFE6E1E5),
     error: Color(0xFFF2B8B5),
     onError: Color(0xFF601410),
-    roseRed: Color(0xFFF48FB1),
-    oceanBlue: Color(0xFF81D4FA),
-    forestGreen: Color(0xFFA5D6A7),
-    sunYellow: Color(0xFFFFE082),
+    roseRed: Color(0xFFFFB2BE),
+    oceanBlue: Color(0xFFB1ECFF),
+    forestGreen: Color(0xFF86D992),
+    sunYellow: Color(0xFFEAC248),
+    cardColor: Color(0xFF2B2930),
+    surfaceVariant: Color(0xFF49454F),
   );
 }
 
