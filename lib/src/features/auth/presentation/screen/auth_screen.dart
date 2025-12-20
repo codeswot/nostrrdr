@@ -4,13 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nostrrdr/src/app/router/app_router.dart';
-import 'package:nostrrdr/src/app/theme/app_colors.dart';
 import 'package:nostrrdr/src/core/presentation/responsive_view.dart';
 import 'package:nostrrdr/src/features/auth/domain/usecase/create_identity.dart';
 import 'package:nostrrdr/src/features/auth/domain/usecase/nsec_login.dart';
 import 'package:nostrrdr/src/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:nostrrdr/src/features/auth/presentation/bloc/auth_state.dart';
 import 'package:nostrrdr/src/features/auth/presentation/widgets/widgets.dart';
+import 'package:nostrrdr/src/core/presentation/extensions/toast_extension.dart';
 
 @RoutePage()
 class AuthScreen extends StatelessWidget {
@@ -28,12 +28,9 @@ class AuthScreen extends StatelessWidget {
           if (state is AuthAuthenticated) {
             context.router.replace(const HomeRoute());
           } else if (state is AuthFailure) {
-            // TODO: replace with own snackbar
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.message),
-                backgroundColor: context.colors.error,
-              ),
+            context.showErrorToast(
+              title: 'Authentication Failed',
+              description: state.message,
             );
           }
         },
