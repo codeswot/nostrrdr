@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:marmot_flutter/marmot_flutter.dart' as marmot;  
-
+import 'package:nostrrdr/src/features/auth/domain/entities/auth_user.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -14,7 +13,7 @@ class AuthInitial extends AuthState {}
 class AuthLoading extends AuthState {}
 
 class AuthAuthenticated extends AuthState {
-  final marmot.Account account;
+  final AuthUser account;
   const AuthAuthenticated(this.account);
 
   @override

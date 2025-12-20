@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:nostrrdr/src/core/errors/failures.dart';
-import 'package:marmot_flutter/marmot_flutter.dart' as marmot;
+import 'package:nostrrdr/src/features/auth/domain/entities/auth_user.dart';
 
 abstract class AuthRepository {
-  Future<Either<Failure, marmot.Account>> nsecLogin(String nsecOrHexPrivkey);
-  Future<Either<Failure, marmot.Account>> createIdentity();
+  Future<Either<Failure, AuthUser>> nsecLogin(String nsecOrHexPrivkey);
+  Future<Either<Failure, AuthUser>> createIdentity();
 }

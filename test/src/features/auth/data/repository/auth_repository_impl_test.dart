@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:marmot_flutter/marmot_flutter.dart' as marmot;
+import 'package:nostrrdr/src/features/auth/domain/entities/auth_user.dart';
 import 'package:nostrrdr/src/core/errors/exeptions.dart';
 import 'package:nostrrdr/src/core/errors/failures.dart';
 import 'package:nostrrdr/src/features/auth/data/datasource/auth_datasource.dart';
@@ -17,19 +17,24 @@ void main() {
   });
 
   group('createIdentity', () {
-    final tAccount = MockAccount();
+    final tAuthUser = AuthUser(
+      pubKey: 'pub',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      lastSyncedAt: DateTime.now(),
+    );
 
     test(
-      'should return Account when the call to data source is successful',
+      'should return AuthUser when the call to data source is successful',
       () async {
         when(
           () => mockAuthDataSource.createIdentity(),
-        ).thenAnswer((_) async => tAccount);
+        ).thenAnswer((_) async => tAuthUser);
 
         final result = await repository.createIdentity();
 
         verify(() => mockAuthDataSource.createIdentity());
-        expect(result, equals(Right(tAccount)));
+        expect(result, equals(Right(tAuthUser)));
       },
     );
 
@@ -67,19 +72,24 @@ void main() {
 
   group('nsecLogin', () {
     const tNsec = 'nsec123456';
-    final tAccount = MockAccount();
+    final tAuthUser = AuthUser(
+      pubKey: 'pub',
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+      lastSyncedAt: DateTime.now(),
+    );
 
     test(
-      'should return Account when the call to data source is successful',
+      'should return AuthUser when the call to data source is successful',
       () async {
         when(
           () => mockAuthDataSource.nsecLogin(any()),
-        ).thenAnswer((_) async => tAccount);
+        ).thenAnswer((_) async => tAuthUser);
 
         final result = await repository.nsecLogin(tNsec);
 
         verify(() => mockAuthDataSource.nsecLogin(tNsec));
-        expect(result, equals(Right(tAccount)));
+        expect(result, equals(Right(tAuthUser)));
       },
     );
 
@@ -112,5 +122,3 @@ void main() {
 }
 
 class MockAuthDataSource extends Mock implements AuthDataSource {}
-
-class MockAccount extends Mock implements marmot.Account {}

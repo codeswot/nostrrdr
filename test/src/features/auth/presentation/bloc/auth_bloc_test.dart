@@ -2,9 +2,9 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:marmot_flutter/marmot_flutter.dart' as marmot;
 import 'package:nostrrdr/src/core/errors/failures.dart';
 import 'package:nostrrdr/src/core/usecase/usecase.dart';
+import 'package:nostrrdr/src/features/auth/domain/entities/auth_user.dart';
 import 'package:nostrrdr/src/features/auth/domain/usecase/create_identity.dart';
 import 'package:nostrrdr/src/features/auth/domain/usecase/nsec_login.dart';
 import 'package:nostrrdr/src/features/auth/presentation/bloc/auth_bloc.dart';
@@ -29,7 +29,7 @@ void main() {
     );
   });
 
-  final tAccount = MockAccount();
+  final tAuthUser = MockAuthUser();
   const tNsec = 'nsec123456';
 
   test('initial state is AuthInitial', () {
@@ -42,11 +42,11 @@ void main() {
       build: () {
         when(
           () => mockNsecLogin(any()),
-        ).thenAnswer((_) async => Right(tAccount));
+        ).thenAnswer((_) async => Right(tAuthUser));
         return bloc;
       },
       act: (bloc) => bloc.add(const NsecLoginRequested(tNsec)),
-      expect: () => [AuthLoading(), AuthAuthenticated(tAccount)],
+      expect: () => [AuthLoading(), AuthAuthenticated(tAuthUser)],
       verify: (_) {
         verify(() => mockNsecLogin(tNsec));
       },
@@ -74,11 +74,11 @@ void main() {
       build: () {
         when(
           () => mockCreateIdentity(any()),
-        ).thenAnswer((_) async => Right(tAccount));
+        ).thenAnswer((_) async => Right(tAuthUser));
         return bloc;
       },
       act: (bloc) => bloc.add(const CreateIdentityRequested()),
-      expect: () => [AuthLoading(), AuthAuthenticated(tAccount)],
+      expect: () => [AuthLoading(), AuthAuthenticated(tAuthUser)],
       verify: (_) {
         verify(() => mockCreateIdentity(any(that: isA<NoParams>())));
       },
@@ -105,4 +105,4 @@ class MockNsecLogin extends Mock implements NsecLoginUseCase {}
 
 class MockCreateIdentity extends Mock implements CreateIdentityUseCase {}
 
-class MockAccount extends Mock implements marmot.Account {}
+class MockAuthUser extends Mock implements AuthUser {}

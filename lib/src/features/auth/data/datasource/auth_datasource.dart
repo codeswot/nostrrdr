@@ -1,14 +1,15 @@
 import 'package:injectable/injectable.dart';
 import 'package:marmot_flutter/marmot_flutter.dart' as marmot;
 import 'package:nostrrdr/src/core/errors/exeptions.dart';
+import 'package:nostrrdr/src/features/auth/domain/entities/auth_user.dart';
 
 typedef LoginFn =
     Future<marmot.Account> Function({required String nsecOrHexPrivkey});
 typedef CreateIdentityFn = Future<marmot.Account> Function();
 
 abstract class AuthDataSource {
-  Future<marmot.Account> nsecLogin(String nsecOrHexPrivkey);
-  Future<marmot.Account> createIdentity();
+  Future<AuthUser> nsecLogin(String nsecOrHexPrivkey);
+  Future<AuthUser> createIdentity();
 }
 
 @LazySingleton(as: AuthDataSource)
@@ -26,18 +27,30 @@ class AuthDataSourceImpl implements AuthDataSource {
        _createIdentityFn = createIdentityFn;
 
   @override
-  Future<marmot.Account> nsecLogin(String nsecOrHexPrivkey) async {
+  Future<AuthUser> nsecLogin(String nsecOrHexPrivkey) async {
     try {
-      return await _loginFn(nsecOrHexPrivkey: nsecOrHexPrivkey);
+      final account = await _loginFn(nsecOrHexPrivkey: nsecOrHexPrivkey);
+      return AuthUser(
+        pubKey: account.pubkey,
+        createdAt: account.createdAt,
+        updatedAt: account.updatedAt,
+        lastSyncedAt: account.lastSyncedAt,
+      );
     } catch (e) {
       throw AppException(e.toString());
     }
   }
 
   @override
-  Future<marmot.Account> createIdentity() async {
+  Future<AuthUser> createIdentity() async {
     try {
-      return await _createIdentityFn();
+      final account = await _createIdentityFn();
+      return AuthUser(
+        pubKey: account.pubkey,
+        createdAt: account.createdAt,
+        updatedAt: account.updatedAt,
+        lastSyncedAt: account.lastSyncedAt,
+      );
     } catch (e) {
       throw AppException(e.toString());
     }

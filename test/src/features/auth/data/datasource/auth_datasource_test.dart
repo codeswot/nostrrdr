@@ -2,10 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:marmot_flutter/marmot_flutter.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:nostrrdr/src/features/auth/data/datasource/auth_datasource.dart';
+import 'package:nostrrdr/src/features/auth/domain/entities/auth_user.dart';
 
 void main() {
   late AuthDataSourceImpl authDataSource;
   late MockFunctions mockFunctions;
+  final date = DateTime.now();
 
   setUp(() {
     mockFunctions = MockFunctions();
@@ -18,9 +20,16 @@ void main() {
   group('AuthDataSource', () {
     final tAccount = Account(
       pubkey: 'pubkey',
-      lastSyncedAt: DateTime.now(),
-      createdAt: DateTime.now(),
-      updatedAt: DateTime.now(),
+      lastSyncedAt: date,
+      createdAt: date,
+      updatedAt: date,
+    );
+
+    final tAuthUser = AuthUser(
+      pubKey: 'pubkey',
+      lastSyncedAt: date,
+      createdAt: date,
+      updatedAt: date,
     );
 
     test('nsecLogin should call login function', () async {
@@ -32,7 +41,7 @@ void main() {
 
       final result = await authDataSource.nsecLogin('nsec123');
 
-      expect(result, tAccount);
+      expect(result, tAuthUser);
       verify(() => mockFunctions.login(nsecOrHexPrivkey: 'nsec123')).called(1);
     });
 
@@ -42,7 +51,7 @@ void main() {
       ).thenAnswer((_) async => tAccount);
       final result = await authDataSource.createIdentity();
 
-      expect(result, tAccount);
+      expect(result, tAuthUser);
       verify(() => mockFunctions.createIdentity()).called(1);
     });
   });

@@ -1,8 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:marmot_flutter/marmot_flutter.dart' as marmot;
 import 'package:nostrrdr/src/core/errors/failures.dart';
+import 'package:nostrrdr/src/features/auth/domain/entities/auth_user.dart';
 import 'package:nostrrdr/src/features/auth/domain/repository/auth_repository.dart';
 import 'package:nostrrdr/src/features/auth/domain/usecase/nsec_login.dart';
 
@@ -16,16 +16,16 @@ void main() {
   });
 
   const tNsec = 'nsec123456';
-  final tAccount = MockAccount();
+  final tAuthUser = MockAuthUser();
 
-  test('should get account from the repository', () async {
+  test('should get authUser from the repository', () async {
     when(
       () => mockAuthRepository.nsecLogin(any()),
-    ).thenAnswer((_) async => Right(tAccount));
+    ).thenAnswer((_) async => Right(tAuthUser));
 
     final result = await useCase(tNsec);
 
-    expect(result, Right(tAccount));
+    expect(result, Right(tAuthUser));
     verify(() => mockAuthRepository.nsecLogin(tNsec));
     verifyNoMoreInteractions(mockAuthRepository);
   });
@@ -45,4 +45,4 @@ void main() {
 
 class MockAuthRepository extends Mock implements AuthRepository {}
 
-class MockAccount extends Mock implements marmot.Account {}
+class MockAuthUser extends Mock implements AuthUser {}
