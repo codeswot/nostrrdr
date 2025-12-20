@@ -18,6 +18,7 @@ import '../../features/auth/domain/repository/auth_repository.dart' as _i961;
 import '../../features/auth/domain/usecase/create_identity.dart' as _i1070;
 import '../../features/auth/domain/usecase/nsec_login.dart' as _i505;
 import '../../features/auth/presentation/bloc/auth_bloc.dart' as _i797;
+import '../presentation/bloc/app_bloc.dart' as _i813;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -26,6 +27,7 @@ extension GetItInjectableX on _i174.GetIt {
     _i526.EnvironmentFilter? environmentFilter,
   }) {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
+    gh.lazySingleton<_i813.AppBloc>(() => _i813.AppBloc());
     gh.lazySingleton<_i43.AuthDataSource>(
       () => _i43.AuthDataSourceImpl.create(),
     );

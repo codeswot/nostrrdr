@@ -12,7 +12,7 @@
 	<true/>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.example.nostrrdr</string>
+		<string>$(AppIdentifierPrefix)com.codeswot.nostrrdr</string>
 	</array>
 	<key>com.apple.security.files.user-selected.read-write</key>
 	<true/>

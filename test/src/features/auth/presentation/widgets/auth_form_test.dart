@@ -170,10 +170,7 @@ void main() {
 
         await tester.enterText(find.byType(TextField), 'invalid_key_format');
         await tester.tap(find.text('Login'));
-        await tester
-            .pumpAndSettle(); // Wait for validation and error message rendering
-
-        // Verify error message is shown
+        await tester.pumpAndSettle();
         expect(find.text('Private key must start with "nsec"'), findsOneWidget);
 
         verifyNever(() => mockAuthBloc.add(any()));

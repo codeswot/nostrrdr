@@ -11,6 +11,22 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [AppRootScreen]
+class AppRootRoute extends PageRouteInfo<void> {
+  const AppRootRoute({List<PageRouteInfo>? children})
+    : super(AppRootRoute.name, initialChildren: children);
+
+  static const String name = 'AppRootRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AppRootScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [AuthScreen]
 class AuthRoute extends PageRouteInfo<void> {
   const AuthRoute({List<PageRouteInfo>? children})
@@ -22,6 +38,22 @@ class AuthRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const AuthScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [AuthenticatedShellScreen]
+class AuthenticatedShellRoute extends PageRouteInfo<void> {
+  const AuthenticatedShellRoute({List<PageRouteInfo>? children})
+    : super(AuthenticatedShellRoute.name, initialChildren: children);
+
+  static const String name = 'AuthenticatedShellRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const AuthenticatedShellScreen();
     },
   );
 }

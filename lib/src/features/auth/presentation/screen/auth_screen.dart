@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get_it/get_it.dart';
-import 'package:nostrrdr/src/app/router/app_router.dart';
+import 'package:nostrrdr/src/app/presentation/bloc/app_bloc.dart';
+import 'package:nostrrdr/src/app/presentation/bloc/app_event.dart';
 import 'package:nostrrdr/src/core/presentation/responsive_view.dart';
 import 'package:nostrrdr/src/features/auth/domain/usecase/create_identity.dart';
 import 'package:nostrrdr/src/features/auth/domain/usecase/nsec_login.dart';
@@ -26,7 +27,9 @@ class AuthScreen extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthAuthenticated) {
-            context.router.replace(const HomeRoute());
+            context.read<AppBloc>().add(
+              AppActivePubKeyChanged(state.account.pubKey),
+            );
           } else if (state is AuthFailure) {
             context.showErrorToast(
               title: 'Authentication Failed',
