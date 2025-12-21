@@ -1,5 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:nostrrdr/src/app/presentation/bloc/app_bloc.dart';
+import 'package:nostrrdr/src/app/presentation/bloc/app_state.dart';
 import 'package:nostrrdr/src/app/theme/app_colors.dart';
 import 'package:nostrrdr/src/app/theme/app_typography.dart';
 import 'package:nostrrdr/src/core/presentation/responsive_view.dart';
@@ -12,28 +15,12 @@ class HomeScreen extends ResponsiveView {
   Widget buildMobile(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Card(
-            margin: const EdgeInsets.only(bottom: 12),
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: context.colors.primary.withOpacity(0.1),
-                child: Text('${index + 1}'),
-              ),
-              title: Text(
-                'Note ${index + 1}',
-                style: context.textStyles.titleMedium,
-              ),
-              subtitle: Text(
-                'This is a sample note description for mobile view.',
-                style: context.textStyles.bodyMedium,
-              ),
-            ),
-          );
-        },
+      body: Center(
+        child: BlocBuilder<AppBloc, AppState>(
+          builder: (context, state) {
+            return Text('data ${state.activePubKey}');
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
