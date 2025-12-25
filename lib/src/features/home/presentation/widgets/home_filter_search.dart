@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nostrrdr/src/app/router/app_router.dart';
 import 'package:nostrrdr/src/app/theme/app_colors.dart';
 import 'package:nostrrdr/src/app/theme/app_typography.dart';
 
@@ -55,7 +57,7 @@ class HomeFilterAndSearchState extends State<HomeFilterAndSearch> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           IconButton.filledTonal(
-            onPressed: () {},
+            onPressed: () => context.router.push(const FilterRoute()),
             icon: const Icon(Icons.filter_list),
           ),
           SizedBox(width: 8.w),

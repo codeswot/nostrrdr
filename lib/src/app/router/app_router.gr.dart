@@ -59,6 +59,22 @@ class AuthenticatedShellRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [FilterScreen]
+class FilterRoute extends PageRouteInfo<void> {
+  const FilterRoute({List<PageRouteInfo>? children})
+    : super(FilterRoute.name, initialChildren: children);
+
+  static const String name = 'FilterRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const FilterScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [HomeScreen]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
