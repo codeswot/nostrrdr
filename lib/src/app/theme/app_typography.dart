@@ -104,7 +104,7 @@ class AppTypographyExtension extends ThemeExtension<AppTypographyExtension> {
 
   // Define the standard typography using Google Fonts (e.g., Inter or Roboto)
   static AppTypographyExtension fromColors(Color color) {
-    final baseStyle = GoogleFonts.inter(color: color);
+    final baseStyle = GoogleFonts.nunito(color: color);
 
     return AppTypographyExtension(
       displayLarge: baseStyle.copyWith(

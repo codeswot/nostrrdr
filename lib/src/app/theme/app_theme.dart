@@ -6,7 +6,7 @@ import 'package:nostrrdr/src/app/theme/app_typography.dart';
 class AppTheme {
   static ThemeData get lightTheme {
     const colors = AppColorsExtension.light;
-    final typography = AppTypographyExtension.fromColors(colors.onBackground);
+    final typography = AppTypographyExtension.fromColors(colors.onCard);
 
     return ThemeData(
       useMaterial3: true,
@@ -30,7 +30,7 @@ class AppTheme {
 
   static ThemeData get darkTheme {
     const colors = AppColorsExtension.dark;
-    final typography = AppTypographyExtension.fromColors(colors.onBackground);
+    final typography = AppTypographyExtension.fromColors(colors.onCard);
 
     return ThemeData(
       useMaterial3: true,
@@ -57,8 +57,8 @@ AppBarTheme getAppBarTheme(AppColorsExtension colors) {
   return AppBarTheme(
     centerTitle: true,
     elevation: 0,
-    backgroundColor: Colors.transparent,
-    foregroundColor: colors.onSurface,
+    backgroundColor: colors.surfaceVariant,
+    foregroundColor: colors.onSurfaceVariant,
   );
 }
 
@@ -71,7 +71,7 @@ FilledButtonThemeData getFilledButtonThemeData(AppColorsExtension colors) {
       }),
       foregroundColor: WidgetStateProperty.fromMap({
         WidgetState.selected: colors.onPrimary,
-        WidgetState.disabled: colors.onBackground.withValues(alpha: 0.5),
+        WidgetState.disabled: colors.onCard.withValues(alpha: 0.5),
       }),
       minimumSize: WidgetStatePropertyAll(Size(double.infinity, 50.h)),
       shape: WidgetStatePropertyAll(

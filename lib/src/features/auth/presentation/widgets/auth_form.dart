@@ -64,7 +64,7 @@ class _AuthFormState extends State<AuthForm> {
                 trailingIcon: NrIconButton(
                   onTap: isLoading ? null : _onPaste,
                   icon: Icons.paste,
-                  color: context.colors.onBackground,
+                  color: context.colors.onCard,
                 ),
               ),
               SizedBox(height: 32.h),

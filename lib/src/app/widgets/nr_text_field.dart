@@ -54,7 +54,7 @@ class NrTextField extends FormField<String> {
                  Text(
                    label,
                    style: TextStyle(
-                     color: context.colors.onBackground,
+                     color: context.colors.onCard,
                      fontSize: 14.sp,
                      fontWeight: FontWeight.w500,
                    ),
@@ -92,18 +92,18 @@ class NrTextField extends FormField<String> {
                          field.didChange(value);
                        },
                        style: TextStyle(
-                         color: context.colors.onBackground,
+                         color: context.colors.onCard,
                          fontSize: 14.sp,
                          fontWeight: FontWeight.w700,
                        ),
                        decoration: InputDecoration(
                          hintText: hintText,
                          labelStyle: TextStyle(
-                           color: context.colors.onBackground,
+                           color: context.colors.onCard,
                            fontSize: 14.sp,
                          ),
                          hintStyle: TextStyle(
-                           color: context.colors.onBackground,
+                           color: context.colors.onCard,
                            fontSize: 14.sp,
                          ),
                          fillColor: context.colors.surface,
